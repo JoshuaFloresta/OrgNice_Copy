@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events.cs" />
+    <Compile Include="FinanceClass.cs" />
     <Compile Include="RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>

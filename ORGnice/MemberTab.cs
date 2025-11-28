@@ -62,15 +62,17 @@ namespace ORGnice
             // header style for this column
             var headerStyle = memberDGV.Columns["DetailsColumn"].HeaderCell.Style;
 
-             // order: Details first
-            memberDGV.Columns["DetailsColumn"].DisplayIndex = 0;
-            memberDGV.Columns["member_id"].DisplayIndex = 1;
-            memberDGV.Columns["last_name"].DisplayIndex = 2;
-            memberDGV.Columns["first_name"].DisplayIndex = 3;
-            memberDGV.Columns["gender"].DisplayIndex = 4;
-            memberDGV.Columns["email"].DisplayIndex = 5;
-            memberDGV.Columns["username"].DisplayIndex = 6;
-            memberDGV.Columns["department"].DisplayIndex = 7;
+            // order: Details first
+
+            memberDGV.Columns["DetailsColumn"].DisplayIndex = 16;
+            memberDGV.Columns["member_id"].DisplayIndex = 0;
+            memberDGV.Columns["last_name"].DisplayIndex = 1;
+            memberDGV.Columns["first_name"].DisplayIndex = 2;
+            memberDGV.Columns["gender"].DisplayIndex = 3;
+            memberDGV.Columns["email"].DisplayIndex = 4;
+            memberDGV.Columns["username"].DisplayIndex = 5;
+            memberDGV.Columns["department"].DisplayIndex = 6;
+           
         }
 
         private void memberDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)

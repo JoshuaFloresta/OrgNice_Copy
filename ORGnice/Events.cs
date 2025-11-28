@@ -50,7 +50,7 @@ namespace ORGnice
                 return false;
 
             string connectionString =
-                "server=localhost;port=3306;database=orgdb;uid=root;pwd=Joshua@2004;";
+                "server=localhost;port=3306;database=orgdb;uid=root;pwd=legorocket3368.;";
 
             using (var connection = new MySqlConnection(connectionString))
             {
