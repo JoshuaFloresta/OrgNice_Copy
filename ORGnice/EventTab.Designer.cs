@@ -30,10 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Event_tab));
             this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.Search_btn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
+            this.eventDGV = new System.Windows.Forms.DataGridView();
             this.Archive = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -73,7 +72,9 @@
             this.roundedButton3 = new RoundedButton();
             this.roundedButton2 = new RoundedButton();
             this.roundedButton1 = new RoundedButton();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.MemberSearchBox = new System.Windows.Forms.TextBox();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eventDGV)).BeginInit();
             this.roundedPanel5.SuspendLayout();
             this.roundedPanel2.SuspendLayout();
             this.roundedPanel6.SuspendLayout();
@@ -92,49 +93,41 @@
             this.button5.TabIndex = 23;
             this.button5.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // Search_btn
             // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(39)))), ((int)(((byte)(41)))));
-            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(233, 21);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(25, 26);
-            this.button4.TabIndex = 22;
-            this.button4.UseVisualStyleBackColor = false;
+            this.Search_btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(39)))), ((int)(((byte)(41)))));
+            this.Search_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Search_btn.BackgroundImage")));
+            this.Search_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.Search_btn.FlatAppearance.BorderSize = 0;
+            this.Search_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Search_btn.Location = new System.Drawing.Point(233, 21);
+            this.Search_btn.Name = "Search_btn";
+            this.Search_btn.Size = new System.Drawing.Size(25, 26);
+            this.Search_btn.TabIndex = 22;
+            this.Search_btn.UseVisualStyleBackColor = false;
+            this.Search_btn.Click += new System.EventHandler(this.Search_btn_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.MemberSearchBox);
             this.panel1.Location = new System.Drawing.Point(25, 21);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(210, 26);
             this.panel1.TabIndex = 21;
             // 
-            // dataGridView1
+            // eventDGV
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
-            this.dataGridView1.Location = new System.Drawing.Point(23, 105);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(518, 381);
-            this.dataGridView1.TabIndex = 15;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(96)))), ((int)(((byte)(174)))));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(677, 451);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 35);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Save Changes";
-            this.button2.UseVisualStyleBackColor = false;
+            this.eventDGV.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
+            this.eventDGV.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.eventDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.eventDGV.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
+            this.eventDGV.Location = new System.Drawing.Point(23, 105);
+            this.eventDGV.Name = "eventDGV";
+            this.eventDGV.Size = new System.Drawing.Size(518, 352);
+            this.eventDGV.TabIndex = 15;
+            this.eventDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.eventDGV_CellContentClick);
             // 
             // Archive
             // 
@@ -278,7 +271,7 @@
             this.roundedPanel5.Controls.Add(this.button6);
             this.roundedPanel5.Controls.Add(this.label10);
             this.roundedPanel5.CornerRadius = 16;
-            this.roundedPanel5.Location = new System.Drawing.Point(561, 63);
+            this.roundedPanel5.Location = new System.Drawing.Point(561, 64);
             this.roundedPanel5.Name = "roundedPanel5";
             this.roundedPanel5.Padding = new System.Windows.Forms.Padding(16);
             this.roundedPanel5.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -345,12 +338,12 @@
             this.roundedPanel2.Controls.Add(this.label13);
             this.roundedPanel2.Controls.Add(this.label14);
             this.roundedPanel2.CornerRadius = 16;
-            this.roundedPanel2.Location = new System.Drawing.Point(561, 187);
+            this.roundedPanel2.Location = new System.Drawing.Point(561, 188);
             this.roundedPanel2.Name = "roundedPanel2";
             this.roundedPanel2.Padding = new System.Windows.Forms.Padding(16);
             this.roundedPanel2.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.roundedPanel2.ShadowOffset = 3;
-            this.roundedPanel2.Size = new System.Drawing.Size(224, 252);
+            this.roundedPanel2.Size = new System.Drawing.Size(224, 269);
             this.roundedPanel2.TabIndex = 17;
             // 
             // label16
@@ -561,21 +554,31 @@
             this.roundedButton1.Text = "Sort";
             this.roundedButton1.UseVisualStyleBackColor = false;
             // 
+            // MemberSearchBox
+            // 
+            this.MemberSearchBox.BackColor = System.Drawing.SystemColors.Control;
+            this.MemberSearchBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.MemberSearchBox.Location = new System.Drawing.Point(11, 5);
+            this.MemberSearchBox.Name = "MemberSearchBox";
+            this.MemberSearchBox.Size = new System.Drawing.Size(179, 13);
+            this.MemberSearchBox.TabIndex = 0;
+            // 
             // Event_tab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.Search_btn);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.eventDGV);
             this.Controls.Add(this.roundedPanel5);
             this.Controls.Add(this.roundedPanel2);
             this.Controls.Add(this.roundedPanel6);
             this.Name = "Event_tab";
             this.Size = new System.Drawing.Size(813, 524);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.eventDGV)).EndInit();
             this.roundedPanel5.ResumeLayout(false);
             this.roundedPanel5.PerformLayout();
             this.roundedPanel2.ResumeLayout(false);
@@ -589,9 +592,9 @@
         #endregion
 
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button Search_btn;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView eventDGV;
         private RoundedPanel roundedPanel5;
         private System.Windows.Forms.Button Archive;
         private System.Windows.Forms.Label label6;
@@ -613,7 +616,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button6;
@@ -632,5 +634,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker3;
         private RoundedButton roundedButton6;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox MemberSearchBox;
     }
 }

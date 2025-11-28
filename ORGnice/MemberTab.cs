@@ -82,8 +82,8 @@ namespace ORGnice
                 // get the member_id of the clicked row
                 int memberId = Convert.ToInt32(memberDGV.Rows[e.RowIndex].Cells["member_id"].Value);
 
-                // TODO: open a details form or modal and load data by memberId
-                var detailsForm = new MemberDetailsForm(memberId); // your own form
+            //TODO: open a details form or modal and load data by memberId
+                 var detailsForm = new MemberDetailsForm(memberId); // your own form
                 detailsForm.ShowDialog(this);
             }
         }

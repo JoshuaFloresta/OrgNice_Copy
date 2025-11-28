@@ -1,6 +1,6 @@
 ﻿namespace ORGnice
 {
-    partial class CreateEvent
+    partial class EventDetailsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateEvent));
-            this.panel2 = new System.Windows.Forms.Panel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EventDetailsForm));
             this.close_btn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.roundedPanel1 = new ORGnice.RoundedPanel();
             this.btnClear = new RoundedButton();
             this.btnSave = new RoundedButton();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtOrganizerId = new System.Windows.Forms.ComboBox();
             this.cbStatus = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cbDepartment = new System.Windows.Forms.ComboBox();
@@ -43,13 +44,14 @@
             this.txtOrganizer = new System.Windows.Forms.TextBox();
             this.txtVenue = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dtEnd = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.dtStart = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtEventId = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtEventName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,16 +64,6 @@
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(39)))), ((int)(((byte)(41)))));
-            this.panel2.Controls.Add(this.close_btn);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Location = new System.Drawing.Point(-1, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(640, 43);
-            this.panel2.TabIndex = 6;
             // 
             // close_btn
             // 
@@ -86,7 +78,7 @@
             this.close_btn.Size = new System.Drawing.Size(20, 20);
             this.close_btn.TabIndex = 8;
             this.close_btn.UseVisualStyleBackColor = false;
-            this.close_btn.Click += new System.EventHandler(this.button2_Click);
+            this.close_btn.Click += new System.EventHandler(this.close_btn_Click);
             // 
             // label2
             // 
@@ -100,6 +92,16 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Create Event";
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(39)))), ((int)(((byte)(41)))));
+            this.panel2.Controls.Add(this.close_btn);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(640, 43);
+            this.panel2.TabIndex = 8;
+            // 
             // roundedPanel1
             // 
             this.roundedPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
@@ -109,13 +111,13 @@
             this.roundedPanel1.Controls.Add(this.panel4);
             this.roundedPanel1.Controls.Add(this.panel1);
             this.roundedPanel1.CornerRadius = 16;
-            this.roundedPanel1.Location = new System.Drawing.Point(2, 31);
+            this.roundedPanel1.Location = new System.Drawing.Point(3, 31);
             this.roundedPanel1.Name = "roundedPanel1";
             this.roundedPanel1.Padding = new System.Windows.Forms.Padding(16);
             this.roundedPanel1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.roundedPanel1.ShadowOffset = 3;
             this.roundedPanel1.Size = new System.Drawing.Size(637, 371);
-            this.roundedPanel1.TabIndex = 5;
+            this.roundedPanel1.TabIndex = 7;
             // 
             // btnClear
             // 
@@ -148,6 +150,7 @@
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.txtOrganizerId);
             this.panel5.Controls.Add(this.cbStatus);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Controls.Add(this.cbDepartment);
@@ -155,11 +158,18 @@
             this.panel5.Controls.Add(this.txtOrganizer);
             this.panel5.Controls.Add(this.txtVenue);
             this.panel5.Controls.Add(this.label6);
-            this.panel5.Controls.Add(this.label5);
             this.panel5.Location = new System.Drawing.Point(270, 107);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(330, 193);
             this.panel5.TabIndex = 3;
+            // 
+            // txtOrganizerId
+            // 
+            this.txtOrganizerId.FormattingEnabled = true;
+            this.txtOrganizerId.Location = new System.Drawing.Point(21, 57);
+            this.txtOrganizerId.Name = "txtOrganizerId";
+            this.txtOrganizerId.Size = new System.Drawing.Size(62, 21);
+            this.txtOrganizerId.TabIndex = 20;
             // 
             // cbStatus
             // 
@@ -206,8 +216,9 @@
             // 
             // txtOrganizer
             // 
-            this.txtOrganizer.Location = new System.Drawing.Point(96, 58);
+            this.txtOrganizer.Location = new System.Drawing.Point(96, 57);
             this.txtOrganizer.Name = "txtOrganizer";
+            this.txtOrganizer.ReadOnly = true;
             this.txtOrganizer.Size = new System.Drawing.Size(188, 20);
             this.txtOrganizer.TabIndex = 15;
             // 
@@ -226,15 +237,6 @@
             this.label6.Size = new System.Drawing.Size(41, 13);
             this.label6.TabIndex = 16;
             this.label6.Text = "Venue:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 60);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Organizer:";
             // 
             // panel4
             // 
@@ -283,6 +285,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.txtEventId);
+            this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.txtNotes);
@@ -291,6 +295,24 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(251, 295);
             this.panel1.TabIndex = 1;
+            // 
+            // txtEventId
+            // 
+            this.txtEventId.AutoSize = true;
+            this.txtEventId.Location = new System.Drawing.Point(79, 264);
+            this.txtEventId.Name = "txtEventId";
+            this.txtEventId.Size = new System.Drawing.Size(31, 13);
+            this.txtEventId.TabIndex = 22;
+            this.txtEventId.Text = "0001";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(19, 263);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(52, 13);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Event ID:";
             // 
             // panel3
             // 
@@ -314,7 +336,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(19, 105);
+            this.label7.Location = new System.Drawing.Point(19, 101);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(63, 13);
             this.label7.TabIndex = 18;
@@ -325,9 +347,9 @@
             this.txtNotes.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.txtNotes.BackColor = System.Drawing.SystemColors.Window;
             this.txtNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNotes.Location = new System.Drawing.Point(22, 127);
+            this.txtNotes.Location = new System.Drawing.Point(22, 121);
             this.txtNotes.Name = "txtNotes";
-            this.txtNotes.Size = new System.Drawing.Size(195, 146);
+            this.txtNotes.Size = new System.Drawing.Size(205, 128);
             this.txtNotes.TabIndex = 19;
             this.txtNotes.Text = "";
             // 
@@ -340,16 +362,16 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Event Name:";
             // 
-            // CreateEvent
+            // EventDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 404);
+            this.ClientSize = new System.Drawing.Size(638, 402);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.roundedPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "CreateEvent";
-            this.Text = "CE_PopOut";
+            this.Name = "EventDetailsForm";
+            this.Text = "EventDetailsForm";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.roundedPanel1.ResumeLayout(false);
@@ -367,31 +389,33 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
-        private RoundedPanel roundedPanel1;
-        private RoundedButton btnSave;
-        private System.Windows.Forms.TextBox txtVenue;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtOrganizer;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtEventName;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RichTextBox txtNotes;
         private System.Windows.Forms.DateTimePicker dtStart;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbStatus;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbDepartment;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button close_btn;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.TextBox txtOrganizer;
         private System.Windows.Forms.DateTimePicker dtEnd;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox txtEventName;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RichTextBox txtNotes;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.TextBox txtVenue;
+        private System.Windows.Forms.Label label6;
         private RoundedButton btnClear;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cbStatus;
+        private RoundedButton btnSave;
+        private System.Windows.Forms.Panel panel5;
+        private RoundedPanel roundedPanel1;
+        private System.Windows.Forms.Button close_btn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label txtEventId;
+        private System.Windows.Forms.ComboBox txtOrganizerId;
     }
 }

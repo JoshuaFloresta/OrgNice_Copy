@@ -24,6 +24,12 @@ namespace ORGnice
             // Ensure buttons are wired (Designer may not have set these)
             this.roundedButton1.Click += roundedButton1_Click;
             this.roundedButton2.Click += RoundedButton2_Click;
+
+            //check if theres an image upload label to hide
+            if (imageUploadLbl != null)
+            {
+                imageUploadLbl.Visible = false;
+            }
         }
 
         private void cbRole_SelectedIndexChanged(object sender, EventArgs e)
@@ -40,9 +46,6 @@ namespace ORGnice
             }
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-        }
             
         private void roundedButton1_Click(object sender, EventArgs e)
         {
@@ -80,9 +83,9 @@ namespace ORGnice
 
             // Profile image path if user picked one (picProfile.Tag used in designer code)
             string profileImagePath = null;
-            if (picProfile != null && picProfile.Tag != null)
+            if (txtImagePath != null && txtImagePath.Tag != null)
             {
-                profileImagePath = picProfile.Tag.ToString();
+                profileImagePath = txtImagePath.Tag.ToString();
             }
 
             // Create member object using property initializers
@@ -151,10 +154,10 @@ namespace ORGnice
             if (txtPassword != null) txtPassword.Clear();
 
             // clear profile preview
-            if (picProfile != null)
+            if (txtImagePath != null)
             {
-                picProfile.Image = null;
-                picProfile.Tag = null;
+                txtImagePath.Image = null;
+                txtImagePath.Tag = null;
             }
         }
 
@@ -166,15 +169,14 @@ namespace ORGnice
 
         private void roundedButton3_Click(object sender, EventArgs e)
         {
-            imageUploadLbl.Visible = false;
 
             using (var ofd = new OpenFileDialog())
             {
                 ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    picProfile.Image = Image.FromFile(ofd.FileName);   // preview
-                    picProfile.Tag = ofd.FileName;                     // store path for saving
+                    txtImagePath.Image = Image.FromFile(ofd.FileName);   // preview
+                    txtImagePath.Tag = ofd.FileName;                     // store path for saving
                 }
             }
         }
