@@ -18,6 +18,9 @@ namespace ORGnice
             Search_btn.Click += Search_btn_Click;
             memberDGV.CellContentClick += memberDGV_CellContentClick;
 
+            // Wire email notification button -> ensure 'button6' is the actual control name in the designer
+            button6.Click += button6_Click;
+
             // Create Details button column once
             if (!memberDGV.Columns.Contains("DetailsColumn"))
             {
@@ -130,6 +133,14 @@ namespace ORGnice
 
             // Refresh main grid in case any archived member was restored while the dialog was open
             LoadData();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            using (var cm = new FrmEmailNotification())
+            {
+                cm.ShowDialog(this);
+            }
         }
     }
 }

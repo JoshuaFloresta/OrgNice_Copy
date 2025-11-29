@@ -106,7 +106,14 @@
     <Compile Include="ArchivedMembers.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="EmailNotificationClass.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="FrmEmailNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEmailNotification.Designer.cs">
+      <DependentUpon>FrmEmailNotification.cs</DependentUpon>
+    </Compile>
     <Compile Include="RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
