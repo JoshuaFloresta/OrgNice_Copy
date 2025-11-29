@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace ORGnice
 {
@@ -18,12 +14,28 @@ namespace ORGnice
         {
             InitializeComponent();
             membersCrud = new Crud("members");
+
             Search_btn.Click += Search_btn_Click;
             memberDGV.CellContentClick += memberDGV_CellContentClick;
 
-            ////Load data when form opens
-            LoadData();
+            // Create Details button column once
+            if (!memberDGV.Columns.Contains("DetailsColumn"))
+            {
+                var btnCol = new DataGridViewButtonColumn();
+                btnCol.Name = "DetailsColumn";
+                btnCol.HeaderText = "Details";
+                btnCol.Text = "Details";
+                btnCol.UseColumnTextForButtonValue = true;
 
+                btnCol.DefaultCellStyle.BackColor = Color.White;
+                btnCol.DefaultCellStyle.ForeColor = Color.FromArgb(34, 96, 174);
+                btnCol.DefaultCellStyle.SelectionBackColor = Color.FromArgb(34, 96, 174);
+                btnCol.DefaultCellStyle.SelectionForeColor = Color.White;
+
+                memberDGV.Columns.Add(btnCol);
+            }
+
+            LoadData();
         }
 
         private void LoadData()
@@ -34,63 +46,44 @@ namespace ORGnice
             foreach (DataGridViewColumn col in memberDGV.Columns)
                 col.Visible = false;
 
-            memberDGV.Columns["member_id"].Visible = true;
-            memberDGV.Columns["last_name"].Visible = true;
+            memberDGV.Columns["member_id"].Visible  = true;
+            memberDGV.Columns["last_name"].Visible  = true;
             memberDGV.Columns["first_name"].Visible = true;
-            memberDGV.Columns["gender"].Visible = true;
-            memberDGV.Columns["email"].Visible = true;
-            memberDGV.Columns["username"].Visible = true;
+            memberDGV.Columns["gender"].Visible     = true;
+            memberDGV.Columns["email"].Visible      = true;
+            memberDGV.Columns["username"].Visible   = true;
             memberDGV.Columns["department"].Visible = true;
+            memberDGV.Columns["DetailsColumn"].Visible = true;
 
-            if (!memberDGV.Columns.Contains("DetailsColumn"))
-            {
-                var btnCol = new DataGridViewButtonColumn();
-                btnCol.Name = "DetailsColumn";
-                btnCol.HeaderText = "Details";              // column name
-                btnCol.Text = "Details";
-                btnCol.UseColumnTextForButtonValue = true;
-  
-                // cell style: border/background + forecolor
-                btnCol.DefaultCellStyle.BackColor = Color.White;
-                btnCol.DefaultCellStyle.ForeColor = Color.FromArgb(34, 96, 174);
-                btnCol.DefaultCellStyle.SelectionBackColor = Color.FromArgb(34, 96, 174);
-                btnCol.DefaultCellStyle.SelectionForeColor = Color.White;
-
-                memberDGV.Columns.Add(btnCol);
-            }
-
-            // header style for this column
-            var headerStyle = memberDGV.Columns["DetailsColumn"].HeaderCell.Style;
-
-             // order: Details first
+            // place Details at the front
             memberDGV.Columns["DetailsColumn"].DisplayIndex = 0;
-            memberDGV.Columns["member_id"].DisplayIndex = 1;
-            memberDGV.Columns["last_name"].DisplayIndex = 2;
-            memberDGV.Columns["first_name"].DisplayIndex = 3;
-            memberDGV.Columns["gender"].DisplayIndex = 4;
-            memberDGV.Columns["email"].DisplayIndex = 5;
-            memberDGV.Columns["username"].DisplayIndex = 6;
-            memberDGV.Columns["department"].DisplayIndex = 7;
+            memberDGV.Columns["member_id"].DisplayIndex     = 1;
+            memberDGV.Columns["last_name"].DisplayIndex     = 2;
+            memberDGV.Columns["first_name"].DisplayIndex    = 3;
+            memberDGV.Columns["gender"].DisplayIndex        = 4;
+            memberDGV.Columns["email"].DisplayIndex         = 5;
+            memberDGV.Columns["username"].DisplayIndex      = 6;
+            memberDGV.Columns["department"].DisplayIndex    = 7;
         }
 
         private void memberDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            if (memberDGV.Columns[e.ColumnIndex].Name == "DetailsColumn")
-            {
-                // get the member_id of the clicked row
-                int memberId = Convert.ToInt32(memberDGV.Rows[e.RowIndex].Cells["member_id"].Value);
+            string colName = memberDGV.Columns[e.ColumnIndex].Name;
 
-            //TODO: open a details form or modal and load data by memberId
-                 var detailsForm = new MemberDetailsForm(memberId); // your own form
-                detailsForm.ShowDialog(this);
+            if (colName == "DetailsColumn")
+            {
+                int memberId = Convert.ToInt32(
+                    memberDGV.Rows[e.RowIndex].Cells["member_id"].Value);
+
+                using (var detailsForm = new MemberDetailsForm(memberId))
+                {
+                    if (detailsForm.ShowDialog(this) == DialogResult.OK)
+                        LoadData(); // refresh after edits or archive from details form
+                }
             }
         }
-
-
-
-
 
         private void Search_btn_Click(object sender, EventArgs e)
         {
@@ -98,22 +91,45 @@ namespace ORGnice
 
             if (string.IsNullOrEmpty(searchText))
             {
-                // If search box is empty, show all active data
                 LoadData();
             }
             else
             {
-                // Search by name (already filters out deleted records)
                 DataTable searchResults = membersCrud.SearchByName(searchText);
                 memberDGV.DataSource = searchResults;
-            }
+            }       
         }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var cm = new CreateMembers(LoadData);
-            cm.ShowDialog(this);  
+            using (var cm = new CreateMembers(LoadData))
+            {
+                cm.ShowDialog(this);
+            }
+        }
+
+        private void Archive_Click(object sender, EventArgs e)
+        {
+            // Open a modal form that hosts the ArchivedMembers UserControl.
+            // Use a using block so the temporary form is disposed after close.
+            using (var archivedForm = new Form())
+            {
+                archivedForm.Text = "Archived Members";
+                archivedForm.StartPosition = FormStartPosition.CenterParent;
+                archivedForm.ClientSize = new Size(700, 540);
+                archivedForm.FormBorderStyle = FormBorderStyle.Sizable;
+
+                var archivedControl = new ArchivedMembers();
+                archivedControl.Dock = DockStyle.Fill;
+
+                archivedForm.Controls.Add(archivedControl);
+
+                var owner = this.FindForm(); // parent form
+                archivedForm.ShowDialog(owner);
+            }
+
+            // Refresh main grid in case any archived member was restored while the dialog was open
+            LoadData();
         }
     }
 }

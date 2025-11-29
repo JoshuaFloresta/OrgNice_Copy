@@ -135,6 +135,7 @@
             this.Archive.TabIndex = 14;
             this.Archive.Text = "Archive";
             this.Archive.UseVisualStyleBackColor = false;
+            this.Archive.Click += new System.EventHandler(this.Archive_Click);
             // 
             // button3
             // 

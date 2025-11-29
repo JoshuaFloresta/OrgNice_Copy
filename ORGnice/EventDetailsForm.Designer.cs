@@ -33,10 +33,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.roundedPanel1 = new ORGnice.RoundedPanel();
+            this.btnArchive = new RoundedButton();
             this.btnClear = new RoundedButton();
             this.btnSave = new RoundedButton();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.txtOrganizerId = new System.Windows.Forms.ComboBox();
+            this.cbOrganizer = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.cbStatus = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cbDepartment = new System.Windows.Forms.ComboBox();
@@ -105,6 +107,7 @@
             // roundedPanel1
             // 
             this.roundedPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
+            this.roundedPanel1.Controls.Add(this.btnArchive);
             this.roundedPanel1.Controls.Add(this.btnClear);
             this.roundedPanel1.Controls.Add(this.btnSave);
             this.roundedPanel1.Controls.Add(this.panel5);
@@ -118,6 +121,18 @@
             this.roundedPanel1.ShadowOffset = 3;
             this.roundedPanel1.Size = new System.Drawing.Size(637, 371);
             this.roundedPanel1.TabIndex = 7;
+            // 
+            // btnArchive
+            // 
+            this.btnArchive.BackColor = System.Drawing.Color.Firebrick;
+            this.btnArchive.CornerRadius = 10;
+            this.btnArchive.ForeColor = System.Drawing.Color.White;
+            this.btnArchive.Location = new System.Drawing.Point(19, 323);
+            this.btnArchive.Name = "btnArchive";
+            this.btnArchive.Size = new System.Drawing.Size(77, 29);
+            this.btnArchive.TabIndex = 36;
+            this.btnArchive.Text = "Archive";
+            this.btnArchive.UseVisualStyleBackColor = false;
             // 
             // btnClear
             // 
@@ -150,7 +165,8 @@
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.txtOrganizerId);
+            this.panel5.Controls.Add(this.cbOrganizer);
+            this.panel5.Controls.Add(this.label5);
             this.panel5.Controls.Add(this.cbStatus);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Controls.Add(this.cbDepartment);
@@ -163,13 +179,26 @@
             this.panel5.Size = new System.Drawing.Size(330, 193);
             this.panel5.TabIndex = 3;
             // 
-            // txtOrganizerId
+            // cbOrganizer
             // 
-            this.txtOrganizerId.FormattingEnabled = true;
-            this.txtOrganizerId.Location = new System.Drawing.Point(21, 57);
-            this.txtOrganizerId.Name = "txtOrganizerId";
-            this.txtOrganizerId.Size = new System.Drawing.Size(62, 21);
-            this.txtOrganizerId.TabIndex = 20;
+            this.cbOrganizer.FormattingEnabled = true;
+            this.cbOrganizer.Items.AddRange(new object[] {
+            "Singing",
+            "Dancing",
+            "Instrument"});
+            this.cbOrganizer.Location = new System.Drawing.Point(96, 57);
+            this.cbOrganizer.Name = "cbOrganizer";
+            this.cbOrganizer.Size = new System.Drawing.Size(188, 21);
+            this.cbOrganizer.TabIndex = 21;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "Organizer:";
             // 
             // cbStatus
             // 
@@ -416,6 +445,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label txtEventId;
-        private System.Windows.Forms.ComboBox txtOrganizerId;
+        private System.Windows.Forms.ComboBox cbOrganizer;
+        private System.Windows.Forms.Label label5;
+        private RoundedButton btnArchive;
     }
 }
