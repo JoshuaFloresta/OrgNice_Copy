@@ -32,6 +32,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.Search_btn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.MemberSearchBox = new System.Windows.Forms.TextBox();
             this.eventDGV = new System.Windows.Forms.DataGridView();
             this.Archive = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -48,7 +49,7 @@
             this.Filter = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.roundedPanel5 = new ORGnice.RoundedPanel();
-            this.button3 = new System.Windows.Forms.Button();
+            this.ArchiveBtn = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -72,7 +73,6 @@
             this.roundedButton3 = new RoundedButton();
             this.roundedButton2 = new RoundedButton();
             this.roundedButton1 = new RoundedButton();
-            this.MemberSearchBox = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eventDGV)).BeginInit();
             this.roundedPanel5.SuspendLayout();
@@ -116,6 +116,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(210, 26);
             this.panel1.TabIndex = 21;
+            // 
+            // MemberSearchBox
+            // 
+            this.MemberSearchBox.BackColor = System.Drawing.SystemColors.Control;
+            this.MemberSearchBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.MemberSearchBox.Location = new System.Drawing.Point(11, 5);
+            this.MemberSearchBox.Name = "MemberSearchBox";
+            this.MemberSearchBox.Size = new System.Drawing.Size(179, 13);
+            this.MemberSearchBox.TabIndex = 0;
             // 
             // eventDGV
             // 
@@ -266,7 +275,7 @@
             // roundedPanel5
             // 
             this.roundedPanel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
-            this.roundedPanel5.Controls.Add(this.button3);
+            this.roundedPanel5.Controls.Add(this.ArchiveBtn);
             this.roundedPanel5.Controls.Add(this.label8);
             this.roundedPanel5.Controls.Add(this.button6);
             this.roundedPanel5.Controls.Add(this.label10);
@@ -279,16 +288,17 @@
             this.roundedPanel5.Size = new System.Drawing.Size(224, 105);
             this.roundedPanel5.TabIndex = 18;
             // 
-            // button3
+            // ArchiveBtn
             // 
-            this.button3.BackColor = System.Drawing.Color.Firebrick;
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(115, 54);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(91, 35);
-            this.button3.TabIndex = 18;
-            this.button3.Text = "Archive";
-            this.button3.UseVisualStyleBackColor = false;
+            this.ArchiveBtn.BackColor = System.Drawing.Color.Firebrick;
+            this.ArchiveBtn.ForeColor = System.Drawing.Color.White;
+            this.ArchiveBtn.Location = new System.Drawing.Point(115, 54);
+            this.ArchiveBtn.Name = "ArchiveBtn";
+            this.ArchiveBtn.Size = new System.Drawing.Size(91, 35);
+            this.ArchiveBtn.TabIndex = 18;
+            this.ArchiveBtn.Text = "Archive";
+            this.ArchiveBtn.UseVisualStyleBackColor = false;
+            this.ArchiveBtn.Click += new System.EventHandler(this.ArchiveBtn_Click);
             // 
             // label8
             // 
@@ -554,15 +564,6 @@
             this.roundedButton1.Text = "Sort";
             this.roundedButton1.UseVisualStyleBackColor = false;
             // 
-            // MemberSearchBox
-            // 
-            this.MemberSearchBox.BackColor = System.Drawing.SystemColors.Control;
-            this.MemberSearchBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.MemberSearchBox.Location = new System.Drawing.Point(11, 5);
-            this.MemberSearchBox.Name = "MemberSearchBox";
-            this.MemberSearchBox.Size = new System.Drawing.Size(179, 13);
-            this.MemberSearchBox.TabIndex = 0;
-            // 
             // Event_tab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -616,7 +617,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button ArchiveBtn;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label10;

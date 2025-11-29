@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ORGnice
@@ -21,26 +14,55 @@ namespace ORGnice
             _refreshEvents = refreshEvents;
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            this.btnSave.Click += btnSave_Click;
-            this.btnClear.Click += btnClear_Click;
+            // Wire buttons
+            btnSave.Click += btnSave_Click;
+            btnClear.Click += BtnClear_Click;
+            //buttonClose.Click += buttonClose_Click;   // your close button
 
-            // optional: default status
+            // Do not trigger validation when closing
+            //buttonClose.CausesValidation = false;
+
             if (cbStatus != null && cbStatus.Items.Count > 0)
                 cbStatus.SelectedIndex = 0;
+
+            LoadOrganizers();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        // Load active members into organizer ComboBox
+        private void LoadOrganizers()
         {
-            this.Close();
+            try
+            {
+                Crud membersCrud = new Crud("members");
+                DataTable dt = membersCrud.GetActiveRecordsForDisplay(); // must include member_id, first_name, last_name
+
+                if (!dt.Columns.Contains("FullName"))
+                    dt.Columns.Add("FullName", typeof(string));
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string fn = row["first_name"]?.ToString() ?? "";
+                    string ln = row["last_name"]?.ToString() ?? "";
+                    row["FullName"] = (fn + " " + ln).Trim();
+                }
+
+                cbOrganizer.DisplayMember = "FullName";  // name shown
+                cbOrganizer.ValueMember = "member_id"; // underlying ID
+                cbOrganizer.DataSource = dt;
+                cbOrganizer.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to load organizers: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Collect input values
             string eventName = txtEventName.Text.Trim();
-            string department = cbDepartment.Text;    // participants derived from this
+            string department = cbDepartment.Text;
             string venue = txtVenue.Text.Trim();
-            string organizer = txtOrganizer.Text.Trim(); // or a member pick, if you change later
             string status = cbStatus.Text;
 
             DateTime start = dtStart.Value;
@@ -60,7 +82,13 @@ namespace ORGnice
                 return;
             }
 
-            // Build event model (adapt property names to your Event class)
+            int? organizerId = null;
+            if (cbOrganizer.SelectedValue != null &&
+                int.TryParse(cbOrganizer.SelectedValue.ToString(), out int id))
+            {
+                organizerId = id;
+            }
+
             var ev = new Events
             {
                 EventName = eventName,
@@ -68,11 +96,10 @@ namespace ORGnice
                 EndDateTime = end,
                 Department = department,
                 Venue = venue,
-                OrganizerMemberId = null,                 // or parse from a hidden ID textbox
+                OrganizerMemberId = organizerId,
                 Status = string.IsNullOrWhiteSpace(status) ? "Planned" : status,
                 Notes = txtNotes.Text.Trim()
             };
-
 
             bool success = ORGnice.Events.AddEventToDatabase(ev);
 
@@ -80,24 +107,27 @@ namespace ORGnice
             {
                 MessageBox.Show("Event created successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 _refreshEvents?.Invoke();
-                ClearFormFields();
+                this.DialogResult = DialogResult.OK;
+                Close();
             }
             else
             {
                 MessageBox.Show("Failed to create event. Please check your input and try again.",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-    }
+        }
+
         private void ClearFormFields()
         {
             txtEventName.Clear();
             txtVenue.Clear();
-            txtOrganizer.Clear();
             txtNotes.Clear();
 
             if (cbDepartment != null) cbDepartment.SelectedIndex = -1;
             if (cbStatus != null && cbStatus.Items.Count > 0) cbStatus.SelectedIndex = 0;
+            if (cbOrganizer != null) cbOrganizer.SelectedIndex = -1;
 
             dtStart.Value = DateTime.Today;
             dtEnd.Value = DateTime.Today;
@@ -108,16 +138,10 @@ namespace ORGnice
             ClearFormFields();
         }
 
-        private void close_btn_Click(object sender, EventArgs e)
+        private void buttonClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-        }
-    
-            
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-
+            // no validation here; just close
+            Close();
         }
     }
 }

@@ -19,13 +19,14 @@ namespace ORGnice
         }
 
         /// <summary>
-        /// Get all active (non-deleted) records for DataGridView display
-        /// This method ensures deleted members never show in DataGridView
+        /// Get all active (non-deleted / non-archived) records for DataGridView display
+        /// This method ensures deleted/archived records never show in DataGridView
         /// </summary>
         /// <returns>DataTable with only active records</returns>
         public DataTable GetActiveRecordsForDisplay()
         {
-            if (HasArchivingColumns())
+            var archCols = GetArchivingColumnNames();
+            if (archCols != null)
             {
                 return ReadActive();
             }
@@ -37,28 +38,34 @@ namespace ORGnice
         }
 
         /// <summary>
-        /// Filter out deleted records from any DataTable
+        /// Filter out deleted/archived records from any DataTable
         /// Use this method to ensure deleted records don't appear in any display
         /// </summary>
         /// <param name="dataTable">DataTable to filter</param>
-        /// <returns>DataTable with deleted records removed</returns>
+        /// <returns>DataTable with deleted/archived records removed</returns>
         public DataTable FilterActiveRecords(DataTable dataTable)
         {
             if (dataTable == null || dataTable.Rows.Count == 0)
                 return dataTable;
 
-            // Check if the table has archiving columns
-            if (!dataTable.Columns.Contains("is_deleted"))
+            // Check for either archiving column name
+            string flagColumn = null;
+            if (dataTable.Columns.Contains("is_deleted"))
+                flagColumn = "is_deleted";
+            else if (dataTable.Columns.Contains("is_archived"))
+                flagColumn = "is_archived";
+
+            if (flagColumn == null)
                 return dataTable; // No archiving columns, return as is
 
             // Create a new DataTable with the same structure
             DataTable filteredTable = dataTable.Clone();
 
-            // Copy only active (non-deleted) rows
+            // Copy only active (non-deleted / non-archived) rows
             foreach (DataRow row in dataTable.Rows)
             {
-                if (row["is_deleted"] == DBNull.Value ||
-                    Convert.ToInt32(row["is_deleted"]) == 0)
+                if (row[flagColumn] == DBNull.Value ||
+                    Convert.ToInt32(row[flagColumn]) == 0)
                 {
                     filteredTable.ImportRow(row);
                 }
@@ -159,10 +166,12 @@ namespace ORGnice
                 }
             }
 
-            // Add archive filter if needed - THIS IS KEY FOR FILTERING DELETED RECORDS
-            if (!includeArchived && HasArchivingColumns())
+            // Add archive/delete filter if needed
+            var archCols = GetArchivingColumnNames();
+            if (!includeArchived && archCols != null)
             {
-                whereClauses.Add("is_deleted = 0");
+                string flagColumn = archCols[0]; // e.g. is_deleted or is_archived
+                whereClauses.Add($"{flagColumn} = 0");
             }
 
             string whereClause = whereClauses.Count > 0 ? string.Join(" AND ", whereClauses) : null;
@@ -182,20 +191,21 @@ namespace ORGnice
                 return includeArchived ? Read() : ReadActive();
 
             List<string> whereClauses = new List<string>
-            {
-                "(first_name LIKE @name OR last_name LIKE @name)"
-            };
+                {
+                    "(first_name LIKE @name OR last_name LIKE @name)"
+                };
 
-            // AUTOMATICALLY FILTER DELETED RECORDS
-            if (!includeArchived && HasArchivingColumns())
+            // AUTOMATICALLY FILTER DELETED/ARCHIVED RECORDS
+            var archCols = GetArchivingColumnNames();
+            if (!includeArchived && archCols != null)
             {
-                whereClauses.Add("is_deleted = 0");
+                whereClauses.Add($"{archCols[0]} = 0");
             }
 
             var parameters = new Dictionary<string, object>
-            {
-                { "@name", $"%{name}%" }
-            };
+                {
+                    { "@name", $"%{name}%" }
+                };
 
             return Read(string.Join(" AND ", whereClauses), parameters);
         }
@@ -210,9 +220,9 @@ namespace ORGnice
         public DataTable SearchById(string id, string idColumn = "id", bool includeArchived = false)
         {
             var searchCriteria = new Dictionary<string, string>
-            {
-                { idColumn, id }
-            };
+                {
+                    { idColumn, id }
+                };
 
             return Search(searchCriteria, includeArchived, true);
         }
@@ -226,9 +236,9 @@ namespace ORGnice
         public DataTable SearchByDepartment(string department, bool includeArchived = false)
         {
             var searchCriteria = new Dictionary<string, string>
-            {
-                { "department", department }
-            };
+                {
+                    { "department", department }
+                };
 
             return Search(searchCriteria, includeArchived, false);
         }
@@ -292,10 +302,11 @@ namespace ORGnice
                 parameters.Add("@email", $"%{email}%");
             }
 
-            // AUTOMATICALLY FILTER DELETED RECORDS
-            if (!includeArchived && HasArchivingColumns())
+            // AUTOMATICALLY FILTER DELETED/ARCHIVED RECORDS
+            var archCols = GetArchivingColumnNames();
+            if (!includeArchived && archCols != null)
             {
-                whereClauses.Add("is_deleted = 0");
+                whereClauses.Add($"{archCols[0]} = 0");
             }
 
             string whereClause = whereClauses.Count > 0 ? string.Join(" AND ", whereClauses) : null;
@@ -344,9 +355,10 @@ namespace ORGnice
             }
 
             // ENSURE ONLY ACTIVE RECORDS ARE UPDATED
-            if (HasArchivingColumns())
+            var archCols = GetArchivingColumnNames();
+            if (archCols != null)
             {
-                whereClauses.Add("is_deleted = 0");
+                whereClauses.Add($"{archCols[0]} = 0");
             }
 
             string whereClause = string.Join(" AND ", whereClauses);
@@ -391,9 +403,10 @@ namespace ORGnice
             }
 
             // ENSURE ONLY ACTIVE RECORDS ARE DELETED
-            if (HasArchivingColumns())
+            var archCols = GetArchivingColumnNames();
+            if (archCols != null)
             {
-                whereClauses.Add("is_deleted = 0");
+                whereClauses.Add($"{archCols[0]} = 0");
             }
 
             string whereClause = string.Join(" AND ", whereClauses);
@@ -437,9 +450,10 @@ namespace ORGnice
 
                 string whereClause = $"({string.Join(" OR ", nameConditions)})";
 
-                if (HasArchivingColumns())
+                var archCols = GetArchivingColumnNames();
+                if (archCols != null)
                 {
-                    whereClause += " AND is_deleted = 0";
+                    whereClause += $" AND {archCols[0]} = 0";
                 }
 
                 return Delete(whereClause, whereParameters);
@@ -537,9 +551,9 @@ namespace ORGnice
         public DataRow ReadById(string idColumn, object idValue)
         {
             var parameters = new Dictionary<string, object>
-            {
-                { $"@{idColumn}", idValue }
-            };
+                {
+                    { $"@{idColumn}", idValue }
+                };
 
             DataTable result = Read($"{idColumn} = @{idColumn}", parameters);
 
@@ -601,9 +615,9 @@ namespace ORGnice
         public int UpdateById(Dictionary<string, object> updateData, string idColumn, object idValue)
         {
             var whereParameters = new Dictionary<string, object>
-            {
-                { $"@{idColumn}", idValue }
-            };
+                {
+                    { $"@{idColumn}", idValue }
+                };
 
             return Update(updateData, $"{idColumn} = @{idColumn}", whereParameters);
         }
@@ -613,16 +627,20 @@ namespace ORGnice
             if (string.IsNullOrEmpty(whereClause))
                 throw new ArgumentException("WHERE clause is required for delete operations");
 
-            if (!HasArchivingColumns())
+            var archCols = GetArchivingColumnNames();
+            if (archCols == null)
             {
-                throw new InvalidOperationException($"Table {tableName} does not have archiving columns (deleted_at, is_deleted). Please add these columns first.");
+                throw new InvalidOperationException($"Table {tableName} does not have archiving columns (deleted_at/is_deleted or archived_at/is_archived). Please add these columns first.");
             }
 
+            string flagCol = archCols[0]; // is_deleted or is_archived
+            string atCol = archCols[1];   // deleted_at or archived_at
+
             var updateData = new Dictionary<string, object>
-            {
-                { "deleted_at", DateTime.Now },
-                { "is_deleted", 1 }
-            };
+                {
+                    { atCol, DateTime.Now },
+                    { flagCol, 1 }
+                };
 
             return Update(updateData, whereClause, whereParameters);
         }
@@ -630,16 +648,24 @@ namespace ORGnice
         public int DeleteById(string idColumn, object idValue)
         {
             var whereParameters = new Dictionary<string, object>
-            {
-                { $"@{idColumn}", idValue }
-            };
+                {
+                    { $"@{idColumn}", idValue }
+                };
 
             return Delete($"{idColumn} = @{idColumn}", whereParameters);
         }
 
         public DataTable ReadActive(string additionalWhereClause = null, Dictionary<string, object> parameters = null)
         {
-            string whereClause = "is_deleted = 0";
+            var archCols = GetArchivingColumnNames();
+            if (archCols == null)
+            {
+                // No archiving columns -> just apply additional filter if any
+                return Read(additionalWhereClause, parameters);
+            }
+
+            string flagCol = archCols[0];
+            string whereClause = $"{flagCol} = 0";
 
             if (!string.IsNullOrEmpty(additionalWhereClause))
             {
@@ -651,7 +677,15 @@ namespace ORGnice
 
         public DataTable ReadArchived(string additionalWhereClause = null, Dictionary<string, object> parameters = null)
         {
-            string whereClause = "is_deleted = 1";
+            var archCols = GetArchivingColumnNames();
+            if (archCols == null)
+            {
+                // No archiving columns -> nothing archived
+                return new DataTable();
+            }
+
+            string flagCol = archCols[0];
+            string whereClause = $"{flagCol} = 1";
 
             if (!string.IsNullOrEmpty(additionalWhereClause))
             {
@@ -661,36 +695,60 @@ namespace ORGnice
             return Read(whereClause, parameters);
         }
 
-        private bool HasArchivingColumns()
+        /// <summary>
+        /// Returns archiving column names if present.
+        /// If table has archived_* pair returns ["is_archived","archived_at"].
+        /// If table has deleted_* pair returns ["is_deleted","deleted_at"].
+        /// Otherwise returns null.
+        /// </summary>
+        /// <returns>string[2] or null</returns>
+        private string[] GetArchivingColumnNames()
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
 
             try
             {
                 connection.Open();
-                string sql = $"SHOW COLUMNS FROM {tableName} WHERE Field IN ('deleted_at', 'is_deleted')";
+                string sql = $"SHOW COLUMNS FROM {tableName} WHERE Field IN ('deleted_at','is_deleted','archived_at','is_archived')";
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
 
-                MySqlDataReader reader = cmd.ExecuteReader();
-                int columnCount = 0;
-
-                while (reader.Read())
+                var found = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    columnCount++;
+                    while (reader.Read())
+                    {
+                        string field = reader["Field"].ToString();
+                        found.Add(field.ToLower());
+                    }
                 }
 
-                reader.Close();
-                return columnCount == 2;
+                // prefer archived pair if both exist
+                if (found.Contains("is_archived") && found.Contains("archived_at"))
+                {
+                    return new[] { "is_archived", "archived_at" };
+                }
+                // fallback to deleted pair
+                if (found.Contains("is_deleted") && found.Contains("deleted_at"))
+                {
+                    return new[] { "is_deleted", "deleted_at" };
+                }
+
+                return null;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error checking archiving columns for {tableName}: " + ex.Message);
-                return false;
+                return null;
             }
             finally
             {
                 connection.Close();
             }
+        }
+
+        private bool HasArchivingColumns()
+        {
+            return GetArchivingColumnNames() != null;
         }
 
         public bool AddArchivingColumns()
@@ -701,6 +759,8 @@ namespace ORGnice
             {
                 connection.Open();
 
+                // Add the "deleted" style columns by default (existing code expectation).
+                // If you prefer to add the "archived" style for events, add them separately.
                 string sql1 = $"ALTER TABLE {tableName} ADD COLUMN deleted_at DATETIME NULL";
                 MySqlCommand cmd1 = new MySqlCommand(sql1, connection);
 

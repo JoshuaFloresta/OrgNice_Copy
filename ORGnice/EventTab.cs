@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ORGnice
@@ -18,37 +13,13 @@ namespace ORGnice
         {
             InitializeComponent();
             eventsCrud = new Crud("events");
+
             Search_btn.Click += Search_btn_Click;
             eventDGV.CellContentClick += eventDGV_CellContentClick;
+            // wire your Archive button to button3_Click (or ArchiveBtn_Click) in designer or here:
+            // ArchiveBtn.Click += button3_Click;
 
-            ////Load data when form opens
-            LoadEventData();
-
-            for (int i = 0; i<100; i++)
-            {
-               
-            }
-
-        }
-
-        private void LoadEventData()
-        {
-            DataTable data = eventsCrud.GetActiveRecordsForDisplay();
-            eventDGV.DataSource = data;
-
-            // Hide all, then show only selected columns
-            foreach (DataGridViewColumn col in eventDGV.Columns)
-                col.Visible = false;
-
-            eventDGV.Columns["event_id"].Visible = true;
-            eventDGV.Columns["event_name"].Visible = true;
-            eventDGV.Columns["start_datetime"].Visible = true;
-            eventDGV.Columns["end_datetime"].Visible = true;
-            eventDGV.Columns["department"].Visible = true;
-            eventDGV.Columns["status"].Visible = true;
-            eventDGV.Columns["venue"].Visible = true;
-
-            // Add Details button column once
+            // Create Details button column once
             if (!eventDGV.Columns.Contains("DetailsColumn"))
             {
                 var btnCol = new DataGridViewButtonColumn();
@@ -65,7 +36,27 @@ namespace ORGnice
                 eventDGV.Columns.Add(btnCol);
             }
 
-            // Order: Details first, then event fields
+            LoadEventData();
+        }
+
+        private void LoadEventData()
+        {
+            // This Crud method must use WHERE is_archived = 0 in its SQL
+            DataTable data = eventsCrud.GetActiveRecordsForDisplay();
+            eventDGV.DataSource = data;
+
+            foreach (DataGridViewColumn col in eventDGV.Columns)
+                col.Visible = false;
+
+            eventDGV.Columns["event_id"].Visible = true;
+            eventDGV.Columns["event_name"].Visible = true;
+            eventDGV.Columns["start_datetime"].Visible = true;
+            eventDGV.Columns["end_datetime"].Visible = true;
+            eventDGV.Columns["department"].Visible = true;
+            eventDGV.Columns["status"].Visible = true;
+            eventDGV.Columns["venue"].Visible = true;
+            eventDGV.Columns["DetailsColumn"].Visible = true;
+
             eventDGV.Columns["DetailsColumn"].DisplayIndex = 0;
             eventDGV.Columns["event_id"].DisplayIndex = 1;
             eventDGV.Columns["event_name"].DisplayIndex = 2;
@@ -76,16 +67,12 @@ namespace ORGnice
             eventDGV.Columns["venue"].DisplayIndex = 7;
         }
 
-
         private void button6_Click(object sender, EventArgs e)
         {
-            CreateEvent CEvent = new CreateEvent(LoadEventData);
-            CEvent.Show();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+            using (var cEvent = new CreateEvent(LoadEventData))
+            {
+                cEvent.ShowDialog(this);
+            }
         }
 
         private void Search_btn_Click(object sender, EventArgs e)
@@ -94,12 +81,10 @@ namespace ORGnice
 
             if (string.IsNullOrEmpty(searchText))
             {
-                // If search box is empty, show all active data
                 LoadEventData();
             }
             else
             {
-                // Search by name (already filters out deleted records)
                 DataTable searchResults = eventsCrud.SearchByName(searchText);
                 eventDGV.DataSource = searchResults;
             }
@@ -111,13 +96,44 @@ namespace ORGnice
 
             if (eventDGV.Columns[e.ColumnIndex].Name == "DetailsColumn")
             {
-                // get the member_id of the clicked row
-                int eventId = Convert.ToInt32(eventDGV.Rows[e.RowIndex].Cells["event_id"].Value);
+                int eventId = Convert.ToInt32(
+                    eventDGV.Rows[e.RowIndex].Cells["event_id"].Value);
 
-                //TODO: open a details form or modal and load data by memberId
-                var detailsForm = new EventDetailsForm(eventId); // your own form
-                detailsForm.ShowDialog(this);
+                // IMPORTANT: pass LoadEventData so details form can refresh
+                using (var detailsForm = new EventDetailsForm(eventId, LoadEventData))
+                {
+                    if (detailsForm.ShowDialog(this) == DialogResult.OK)
+                        LoadEventData();
+                }
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Host the ArchivedEvents UserControl inside a temporary modal Form
+            using (var archivedForm = new Form())
+            {
+                archivedForm.Text = "Archived Events";
+                archivedForm.StartPosition = FormStartPosition.CenterParent;
+                archivedForm.ClientSize = new Size(700, 540);
+                archivedForm.FormBorderStyle = FormBorderStyle.Sizable;
+
+                var archivedControl = new ArchivedEvents(); // now a UserControl
+                archivedControl.Dock = DockStyle.Fill;
+
+                archivedForm.Controls.Add(archivedControl);
+
+                var owner = this.FindForm();
+                archivedForm.ShowDialog(owner);
+            }
+
+            // Refresh in case any events were restored in the archived UI
+            LoadEventData();
+        }
+
+        private void ArchiveBtn_Click(object sender, EventArgs e)
+        {
+            button3_Click(sender, e);
         }
     }
 }

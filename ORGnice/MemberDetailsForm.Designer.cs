@@ -33,6 +33,7 @@
             this.close_btn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.roundedPanel1 = new ORGnice.RoundedPanel();
+            this.ArchiveBtn = new RoundedButton();
             this.Clr_btn = new RoundedButton();
             this.roundedButton1 = new RoundedButton();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -115,6 +116,7 @@
             // roundedPanel1
             // 
             this.roundedPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
+            this.roundedPanel1.Controls.Add(this.ArchiveBtn);
             this.roundedPanel1.Controls.Add(this.Clr_btn);
             this.roundedPanel1.Controls.Add(this.roundedButton1);
             this.roundedPanel1.Controls.Add(this.panel5);
@@ -128,6 +130,20 @@
             this.roundedPanel1.ShadowOffset = 3;
             this.roundedPanel1.Size = new System.Drawing.Size(568, 461);
             this.roundedPanel1.TabIndex = 9;
+            // 
+            // ArchiveBtn
+            // 
+            this.ArchiveBtn.BackColor = System.Drawing.Color.Firebrick;
+            this.ArchiveBtn.CornerRadius = 10;
+            this.ArchiveBtn.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.ArchiveBtn.ForeColor = System.Drawing.Color.White;
+            this.ArchiveBtn.Location = new System.Drawing.Point(19, 404);
+            this.ArchiveBtn.Name = "ArchiveBtn";
+            this.ArchiveBtn.Size = new System.Drawing.Size(72, 30);
+            this.ArchiveBtn.TabIndex = 36;
+            this.ArchiveBtn.Text = "Archive";
+            this.ArchiveBtn.UseVisualStyleBackColor = false;
+            this.ArchiveBtn.Click += new System.EventHandler(this.ArchiveBtn_Click);
             // 
             // Clr_btn
             // 
@@ -538,5 +554,6 @@
         public System.Windows.Forms.TextBox txtStudentId;
         private System.Windows.Forms.Label txtMemberId;
         private System.Windows.Forms.Label label3;
+        private RoundedButton ArchiveBtn;
     }
 }

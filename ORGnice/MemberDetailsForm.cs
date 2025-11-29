@@ -34,11 +34,11 @@ namespace ORGnice
                 conn.Open();
 
                 string sql = @"SELECT member_id, student_id, first_name, last_name,
-                                      gender, birthday, section, email,
-                                      department, role, username, password,
-                                      profile_image_path
-                               FROM members
-                               WHERE member_id = @id";
+                                          gender, birthday, section, email,
+                                          department, role, username, password,
+                                          profile_image_path
+                                   FROM members
+                                   WHERE member_id = @id";
 
                 using (var cmd = new MySqlCommand(sql, conn))
                 {
@@ -154,7 +154,7 @@ namespace ORGnice
 
             using (var ofd = new OpenFileDialog())
             {
-           
+
                 ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -191,20 +191,20 @@ namespace ORGnice
                 conn.Open();
 
                 string sql = @"
-                UPDATE members SET
-                    student_id = @studentId,
-                    first_name = @firstName,
-                    last_name = @lastName,
-                    gender = @gender,
-                    birthday = @birthday,
-                    section = @section,
-                    email = @email,
-                    department = @department,
-                    role = @role,
-                    username = @username,
-                    password = @password,
-                    profile_image_path = @profileImagePath
-                WHERE member_id = @id";
+                    UPDATE members SET
+                        student_id = @studentId,
+                        first_name = @firstName,
+                        last_name = @lastName,
+                        gender = @gender,
+                        birthday = @birthday,
+                        section = @section,
+                        email = @email,
+                        department = @department,
+                        role = @role,
+                        username = @username,
+                        password = @password,
+                        profile_image_path = @profileImagePath
+                    WHERE member_id = @id";
 
                 using (var cmd = new MySqlCommand(sql, conn))
                 {
@@ -249,7 +249,7 @@ namespace ORGnice
                 }
             }
 
-            }
+        }
 
 
 
@@ -303,6 +303,50 @@ namespace ORGnice
             if (!isAdmin)
             {
                 txtPassword.Clear(); // optional: clear when not admin
+            }
+        }
+
+        private void ArchiveBtn_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Archive this member? You can restore it later from the archive.",
+                "Confirm Archive", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (var conn = new MySqlConnection(_connString))
+                {
+                    conn.Open();
+
+                    string sql = @"
+                    UPDATE members
+                    SET is_archived = 1,
+                        archived_at = NOW()
+                    WHERE member_id = @id";
+
+                    using (var cmd = new MySqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", _memberId);
+
+                        int rows = cmd.ExecuteNonQuery();
+                        if (rows > 0)
+                        {
+                            MessageBox.Show("Member archived.");
+                            DialogResult = DialogResult.OK; // signal parent to refresh
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to archive member.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error archiving member: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

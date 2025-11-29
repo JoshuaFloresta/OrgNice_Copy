@@ -135,6 +135,7 @@
             this.Archive.TabIndex = 14;
             this.Archive.Text = "Archive";
             this.Archive.UseVisualStyleBackColor = false;
+            this.Archive.Click += new System.EventHandler(this.Archive_Click);
             // 
             // button3
             // 
@@ -329,6 +330,7 @@
             this.button6.TabIndex = 11;
             this.button6.Text = "Send Message";
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // label8
             // 

@@ -40,7 +40,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.cbDepartment = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtOrganizer = new System.Windows.Forms.TextBox();
             this.txtVenue = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -55,6 +54,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtNotes = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.cbOrganizer = new System.Windows.Forms.ComboBox();
             this.panel2.SuspendLayout();
             this.roundedPanel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -86,7 +86,6 @@
             this.close_btn.Size = new System.Drawing.Size(20, 20);
             this.close_btn.TabIndex = 8;
             this.close_btn.UseVisualStyleBackColor = false;
-            this.close_btn.Click += new System.EventHandler(this.button2_Click);
             // 
             // label2
             // 
@@ -130,7 +129,6 @@
             this.btnClear.TabIndex = 35;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = false;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSave
             // 
@@ -148,11 +146,11 @@
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.cbOrganizer);
             this.panel5.Controls.Add(this.cbStatus);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Controls.Add(this.cbDepartment);
             this.panel5.Controls.Add(this.label1);
-            this.panel5.Controls.Add(this.txtOrganizer);
             this.panel5.Controls.Add(this.txtVenue);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Controls.Add(this.label5);
@@ -203,13 +201,6 @@
             this.label1.Size = new System.Drawing.Size(65, 13);
             this.label1.TabIndex = 10;
             this.label1.Text = "Participants:";
-            // 
-            // txtOrganizer
-            // 
-            this.txtOrganizer.Location = new System.Drawing.Point(96, 58);
-            this.txtOrganizer.Name = "txtOrganizer";
-            this.txtOrganizer.Size = new System.Drawing.Size(188, 20);
-            this.txtOrganizer.TabIndex = 15;
             // 
             // txtVenue
             // 
@@ -340,6 +331,14 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Event Name:";
             // 
+            // cbOrganizer
+            // 
+            this.cbOrganizer.FormattingEnabled = true;
+            this.cbOrganizer.Location = new System.Drawing.Point(96, 58);
+            this.cbOrganizer.Name = "cbOrganizer";
+            this.cbOrganizer.Size = new System.Drawing.Size(188, 21);
+            this.cbOrganizer.TabIndex = 20;
+            // 
             // CreateEvent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -373,7 +372,6 @@
         private RoundedButton btnSave;
         private System.Windows.Forms.TextBox txtVenue;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtOrganizer;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker dtStart;
         private System.Windows.Forms.Label label4;
@@ -393,5 +391,6 @@
         private RoundedButton btnClear;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbStatus;
+        private System.Windows.Forms.ComboBox cbOrganizer;
     }
 }
