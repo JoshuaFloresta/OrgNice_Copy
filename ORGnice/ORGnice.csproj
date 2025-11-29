@@ -100,19 +100,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArchivedEvents.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ArchivedMembers.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="EmailNotificationClass.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="FrmEmailNotification.cs">
+    <Compile Include="ArchivePage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmEmailNotification.Designer.cs">
-      <DependentUpon>FrmEmailNotification.cs</DependentUpon>
+    <Compile Include="ArchivePage.Designer.cs">
+      <DependentUpon>ArchivePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateFinance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateFinance.Designer.cs">
+      <DependentUpon>CreateFinance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events.cs" />
+    <Compile Include="FinanceClass.cs" />
+    <Compile Include="FinanceDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FinanceDetail.Designer.cs">
+      <DependentUpon>FinanceDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FinanceTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FinanceTab.Designer.cs">
+      <DependentUpon>FinanceTab.cs</DependentUpon>
     </Compile>
     <Compile Include="RoundedButton.cs">
       <SubType>Component</SubType>
@@ -172,6 +184,10 @@
     <Compile Include="EventTab.Designer.cs">
       <DependentUpon>EventTab.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CreateFinance.resx">
+      <DependentUpon>CreateFinance.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,6 +199,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EventDetailsForm.resx">
       <DependentUpon>EventDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FinanceTab.resx">
+      <DependentUpon>FinanceTab.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemberDetailsForm.resx">
       <DependentUpon>MemberDetailsForm.cs</DependentUpon>
@@ -223,7 +243,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="images\meowl.jpg" />
   </ItemGroup>
