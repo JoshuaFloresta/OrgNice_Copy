@@ -35,7 +35,7 @@ namespace ORGnice
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string connectionString = "server=localhost;port=3306;database=orgdb;uid=root;pwd=legorocket3368.;";
+            string connectionString = "server=localhost;port=3306;database=orgdb;uid=root;pwd=Joshua@2004;";
             MySqlConnection connection = new MySqlConnection(connectionString);
             try
             {

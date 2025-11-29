@@ -11,7 +11,7 @@ namespace ORGnice
     {
         private readonly int _memberId;
         private readonly string _connString =
-            "server=localhost;port=3306;database=orgdb;uid=root;pwd=legorocket3368.;";
+            "server=localhost;port=3306;database=orgdb;uid=root;pwd=Joshua@2004;";
         public MemberDetailsForm(int memberId)
         {
             InitializeComponent();
