@@ -10,7 +10,7 @@ namespace ORGnice
 {
     public class Crud
     {
-        private string connectionString = "server=localhost;port=3306;database=orgdb;uid=root;pwd=legorocket3368.;";
+        private string connectionString = "server=localhost;port=3306;database=orgdb;uid=root;pwd=Joshua@2004;";
         private string tableName;
 
         public Crud(string table)

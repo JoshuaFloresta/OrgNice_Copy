@@ -96,7 +96,6 @@
             this.LandingPage = new System.Windows.Forms.Panel();
             this.members_tab = new ORGnice.Members_tab();
             this.event_tab = new ORGnice.Event_tab();
-            this.finance_tab = new ORGnice.FinanceTab();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
@@ -940,16 +939,6 @@
             this.event_tab.Name = "event_tab";
             this.event_tab.Size = new System.Drawing.Size(812, 597);
             this.event_tab.TabIndex = 26;
-            this.event_tab.Visible = false;
-            // 
-            // finance_tab
-            // 
-            this.finance_tab.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.finance_tab.Location = new System.Drawing.Point(187, 96);
-            this.finance_tab.Name = "finance_tab";
-            this.finance_tab.Size = new System.Drawing.Size(812, 583);
-            this.finance_tab.TabIndex = 27;
-            this.finance_tab.Visible = false;
             // 
             // 
             // Dashboard
@@ -965,7 +954,6 @@
             this.Controls.Add(this.LandingPage);
             this.Controls.Add(this.members_tab);
             this.Controls.Add(this.event_tab);
-            this.Controls.Add(this.finance_tab);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Dashboard";
@@ -1065,6 +1053,5 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel LandingPage;
         private Event_tab event_tab;
-        private FinanceTab finance_tab;
     }
 }

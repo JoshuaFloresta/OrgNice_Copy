@@ -67,23 +67,7 @@ namespace ORGnice
         {
             Indicator.Height = Finance_btn.Height;
             Indicator.Top = Finance_btn.Top;
-            
-            finance_tab.BringToFront();
-            finance_tab.Visible = true;
             UserGreetLbl.Text = "Manage Finances";
-
-            // Refresh the finance tab data when switching to it
-            try
-            {
-                if (finance_tab is FinanceTab financeTabControl)
-                {
-                    financeTabControl.RefreshFinanceData();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error refreshing finance tab: {ex.Message}");
-            }
         }
 
         private void button12_Click(object sender, EventArgs e)
